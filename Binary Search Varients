@@ -1,0 +1,59 @@
+def binary_search_pointers(target,data):
+    notFound = True
+    n = len(data)
+    end = n -1
+    start = 0
+    while notFound:  
+        mean = (end + start) // 2
+        if start > end:
+            notFound = False
+        if data[mean] > target:
+            end = mean - 1
+        elif data[mean] == target:
+            return True
+        else:
+            start = mean + 1
+    ...
+    return False
+
+def binary_search_recursive(target,data):
+    n = len(data)
+    if n == 1 and target != data[0]:
+        return False
+    if data[n//2] > target:
+        return binary_search_recursive(target, data[:n//2])
+    elif data[n//2] == target:
+        return True
+    else:
+        return binary_search_recursive(target, data[n//2:])
+
+def binary_search_recursive_pointers(target,data):
+    def binSearchRec(target, data, lp, hp):     
+        mean = (lp + hp) // 2
+        if lp > hp:
+            return False
+        if data[mean] > target:
+            hp = mean - 1
+        elif data[mean] == target:
+            return True
+        else:
+            lp = mean + 1
+    return binSearchRec(target,data, 0, len(data) - 1)
+
+def newSearch(target,data): # added a middle bucket to binary search
+    def binSearchNew(target, data, lp, hp): 
+        mean = (lp + hp) // 2
+        if lp > hp:
+            return False    
+        if data[mean] == target:
+            return True
+        lw = (lp + hp) // 4
+        hw = mean + (lp + hp) // 4
+        if target < lw:
+            hp = lw - 1
+        elif hw > target:
+            lp = hw + 1
+        else:
+            lp = lw + 1
+            hp = hw - 1
+    return binSearchNew(target,data, 0, len(data) - 1)
